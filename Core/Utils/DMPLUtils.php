@@ -33,6 +33,63 @@ class DMPLUtils {
 		return mktime(0,0,0,$m,$d,$y);
 	}
 	
+	public static function date_toEN($aTimestamp = null){
+		if(isset($aTimestamp)){
+			$timestamp = $aTimestamp;
+		}else{
+			$timestamp = mktime();
+		}
+		
+		return date('Y-m-d', $timestamp);
+	}
+	
+	public static function date_fromPT($aDate = null){
+		$Y = 0;
+		$M = 0;
+		$D = 0;
+		$h = 0;
+		$m = 0;
+		$s = 0;
+		
+		if(isset($aDate)){
+			$masterPieces = explode(' ', $aDate);
+			
+			/**
+			 * DATA
+			 */
+			if(isset($masterPieces[0])){
+				$datePieces = explode('/', $masterPieces[0]);
+				$Y = isset($datePieces[2]) ? $datePieces[2] : date('Y');
+				$M = isset($datePieces[1]) ? $datePieces[1] : date('m');
+				$D = isset($datePieces[0]) ? $datePieces[0] : date('d');
+			}else{
+				$Y = date('Y');
+				$M = date('m');
+				$D = date('d');
+			}
+			
+			/**
+			 * HORA
+			 */
+			if(isset($masterPieces[1])){
+				$timePieces = explode(':', $masterPieces[1]);
+				$h = isset($timePieces[0]) ? $timePieces[0] : date('H');
+				$m = isset($timePieces[1]) ? $timePieces[1] : date('i');
+				$s = isset($timePieces[2]) ? $timePieces[2] : date('s');
+			}else{
+				$h = date('H');
+				$m = date('i');
+				$s = date('s');
+			}
+		}
+		
+		return mktime($h, $m, $s, $M, $D, $Y);
+	}
+	
+	public static function date_PtToEn($aDate = null){
+		return self::date_toEN(self::date_fromPT($aDate));
+	}
+	
 	public static function formatURLQuery($aUrl = '', $aParams = array()){
 		$url = $aUrl;
 		$pUrl = '';
@@ -49,6 +106,28 @@ class DMPLUtils {
 		}
 		
 		return $url;
+	}
+	
+	public static function dbDateTime($aTimestamp = null){
+		if(!isset($aTimestamp) || !is_numeric($aTimestamp)){
+			$aTimestamp = mktime();
+		}
+		
+		return date('Y-m-d H:i:s', $aTimestamp);
+	}
+	
+	public static function encrypt($aOriginalPlainText = ''){
+		$cipher = base64_encode($aOriginalPlainText);
+		return $cipher;
+	}
+	
+	public static function decrypt($aCipherText = ''){
+		$decoded = base64_decode($aCipherText);
+		return $decoded;
+	}
+	
+	public static function hashArray($aArray = array()){
+		return md5(serialize($aArray));
 	}
 	
 }

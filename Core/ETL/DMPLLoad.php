@@ -25,25 +25,17 @@
 
 namespace Damaplan\Norman\Core\ETL;
 
+Use Damaplan\Norman\Core\DB\DMPLEntity;
+Use Damaplan\Norman\Core\DB\DMPLEntityList;
+
 class DMPLLoad {
 	
 	private $_log = array();
 	private $_config = null;
+	private $_data = null;
 	
 	function __construct($aConfig = null){
 		$this->init($aConfig);
-	}
-	
-	public function setConfig($aConfig = null){
-		$this->_config = $aConfig;
-	}
-	
-	public function getConfig(){
-		return $this->_config;
-	}
-	
-	public function getLog(){
-		return $this->_log;
 	}
 	
 	public function init($aConfig = array()){
@@ -51,8 +43,46 @@ class DMPLLoad {
 		return true;
 	}
 	
-	public function load(){
-		echo "\nCarregando...\n";
+	public function getConfig(){
+		return $this->_config;
+	}
+	
+	public function setConfig($aConfig = null){
+		$this->_config = $aConfig;
+	}
+	
+	public function getLog(){
+		return $this->_log;
+	}
+	
+	public function addLog($log = ''){
+		$this->_log[] = $log;
+	}
+	
+	public function getData(){
+		return $this->_data;
+	}
+	
+	public function setData($aData = null){
+		$this->_data = $aData;
+		$this->_data->setDriverName($this->_config->getDriverName());
+		$this->_data->setDBParams($this->_config->getParams());
+	}
+	
+	public function load($aData = null){
+		if(isset($aData)){
+			$this->setData($aData);
+			
+			if($this->_data instanceof DMPLEntity || $this->_data instanceof DMPLEntityList){
+				return $this->_data->save();
+			}else{
+				$this->addLog("[Loader] Falha ao fazer o salvar informações, pois a entidade é inválida.");
+				return false;
+			}
+		}else{
+			$this->addLog("[Loader] Falha ao fazer o salvar informações, pois a entidade não foi informada.");
+			return false;
+		}
 	}
 	
 }

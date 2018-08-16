@@ -24,73 +24,27 @@
 ** @Comment	 	: Primeira versão.                                             **
 ********************************************************************************/
 
-Use Damaplan\Norman\Core\DMPLParams;
+Use Damaplan\Norman\Core\Utils\DMPLParams;
 
 DMPLParams::write('DMPL_CLASS_SEPARATOR', '\\');
 DMPLParams::write('DMPL_CLASS_MAP', loadClassMap(ROOT));
 
 spl_autoload_register(function ($class_name) {
+	
+	if(class_exists($class_name, FALSE)){
+		return false;
+	}
+	
 	$file = findFile($class_name);
 
 	if($file !== FALSE){
 		if(file_exists($file)){
 			include $file;
 		}else{
-			echo "\n[Autoloader] O arquivo " . $file . " (da classe " . $class_name . ") não encontrado.\n";
+			debug("O arquivo " . $file . " (da classe " . $class_name . ") não encontrado.", 'Autoloader');
 		}
 		
 	}else {
-		echo "\n[Autoloader] Erro ao identificar arquivo da classe " . $class_name . ".\n";
+		debug("Erro ao identificar arquivo da classe " . $class_name . ".", 'Autoloader');
 	}
 });
-
-function findFile($class_name){
-	$file = FALSE;
-	$class = '';
-	$cMap = array();
-	
-	if(isset($class_name) && strlen($class_name) > 0){
-		$pieces = explode(DMPLParams::read('DMPL_CLASS_SEPARATOR'), $class_name);
-
-		if(isset($pieces) && count($pieces) > 0){
-			$class = array_pop($pieces);
-			$cMap = DMPLParams::read('DMPL_CLASS_MAP');
-			
-			if(isset($class) && isset($cMap[$class])){
-				$file = $cMap[$class];
-			}			 
-		}
-		
-		return $file;
-	}
-	
-	return $class_name . '.php';	
-}
-
-function loadClassMap($currentDir = '', $classMap = null){
-	
-	if(!isset($classMap)){
-		$classMap = array();
-	}
-	
-	$files = scandir($currentDir);
-	
-	if(isset($files) && count($files) > 0){
-		foreach($files as $file){
-			if($file === '.' || $file === '..') continue;
-			
-			if(is_dir($currentDir . DS . $file)){
-				$classMap = array_merge($classMap, loadClassMap($currentDir . DS . $file, $classMap));
-			}else{
-				$filePieces = explode('.', $file);
-				
-				if(array_pop($filePieces) == 'php'){
-					$classMap[implode('.', $filePieces)] = $currentDir . DS . $file;
-				}
-			}
-		}
-	}
-	
-	return $classMap;
-
-}

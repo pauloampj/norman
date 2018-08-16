@@ -3,7 +3,7 @@
  ** @Company     : Damaplan                                                     **
  ** @System      : Norman - Gestor de Normativos		                        **
  ** @Module		 : Driver_Curl - Driver de extração através do CURL.			**
-  ** @Namespace	 : Damaplan\Norman\Core\ETL\Drivers								    **
+ ** @Namespace	 : Damaplan\Norman\Core\ETL\Drivers							    **
  ** @Copyright	 : Damaplan Consultoria LTDA (http://www.damaplan.com.br)       **
  ** @Link		 : http://norman.damaplan.com.br/documentation                  **
  ** @Email		 : sistemas@damaplan.com.br					                    **
@@ -27,8 +27,6 @@ namespace Damaplan\Norman\Core\ETL\Drivers;
 
 Use Damaplan\Norman\Core\Utils\DMPLUtils;
 Use Damaplan\Norman\Core\Utils\DMPLCache;
-Use Damaplan\Norman\Core\Utils\DMPLContent;
-Use Damaplan\Norman\Core\Utils\Domains\DMPLContentTypes;
 Use Damaplan\Norman\Core\ETL\DMPLEDriver;
 
 class DMPLEDriver_Curl extends DMPLEDriver {
@@ -72,20 +70,25 @@ class DMPLEDriver_Curl extends DMPLEDriver {
 		return $content;
 	}
 	
+	private function _setParams($aParams = array()){
+		return $this->_config->setParams($aParams);
+	}
+	
 	public function init($aConfig = array()){
 		$this->_config = $aConfig;
 	}
 	
-	public function extract($aParams = array()){
-		$content = false;
-		$url = $this->_getQuery();
-		$data = $this->_loadRemoteContent($url);
-		
-		if($data !== false){
-			$content = new DMPLContent($data, DMPLContentTypes::$JSON);
+	public function extract($aParams = null){
+		if(isset($aParams) && is_array($aParams)){
+			$this->_setParams($aParams);
 		}
 		
-		return $content;
+		$content = false;
+		$url = $this->_getQuery();
+		debug($url);
+		$data = $this->_loadRemoteContent($url);
+		
+		return $data;
 	}
 	
 }

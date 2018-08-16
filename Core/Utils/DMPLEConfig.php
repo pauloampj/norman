@@ -30,8 +30,10 @@ namespace Damaplan\Norman\Core\Utils;
 class DMPLEConfig extends DMPLConfig{
 	
 	private $_driverName = '';
+	private $_paginatorName = '';
 	private $_params = array();
 	private $_useCahche = false;
+	private $_autoPaginate = false;
 	
 	function __construct($aConfig = array()) {
 		$this->init($aConfig);
@@ -40,10 +42,15 @@ class DMPLEConfig extends DMPLConfig{
 	public function init($aConfig = array()){
 		if(isset($aConfig) && is_array($aConfig)){
 			if(isset($aConfig['Driver'])) $this->setDriverName($aConfig['Driver']);
+			if(isset($aConfig['Paginator'])) $this->setPaginatorName($aConfig['Paginator']);
 			if(isset($aConfig['Params'])) $this->setParams($aConfig['Params']);
 			
 			if(isset($aConfig['UseCache'])){
 				$this->_useCache = $aConfig['UseCache'];
+			}
+			
+			if(isset($aConfig['AutoPaginate'])){
+				$this->_autoPaginate = $aConfig['AutoPaginate'];
 			}
 			
 			return true;
@@ -60,6 +67,14 @@ class DMPLEConfig extends DMPLConfig{
 		$this->_driverName = $aName;
 	}
 	
+	public function getPaginatorName(){
+		return $this->_paginatorName;
+	}
+	
+	public function setPaginatorName($aName){
+		$this->_paginatorName = $aName;
+	}
+	
 	public function getParams(){
 		return $this->_params;
 	}
@@ -70,6 +85,10 @@ class DMPLEConfig extends DMPLConfig{
 	
 	public function useCache(){
 		return $this->_useCache;
+	}
+	
+	public function autoPaginate(){
+		return $this->_autoPaginate;
 	}
 		
 }

@@ -70,16 +70,32 @@ class DMPLEtl {
 		return $this->_hExtractor->getContent();
 	}
 	
+	public function getTransformedData(){
+		return $this->_hTransformer->getTransformedData();
+	}
+	
 	public function extract(){
 		return $this->_hExtractor->extract();
 	}
 	
-	public function transform(){
-		return $this->_hTransformer->transform();
+	public function transform($aContent = null){
+		if(isset($aContent)){
+			$content = $aContent;
+		}else{
+			$content = $this->getExtractedContent();
+		}
+		
+		return $this->_hTransformer->transform($content);
 	}
 	
-	public function load(){
-		return $this->_hLoader->load();
+	public function load($aData = null){
+		if(isset($aData)){
+			$data = $aData;
+		}else{
+			$data = $this->getTransformedData();
+		}
+
+		return $this->_hLoader->load($data);
 	}
 	
 	public function getLog(){

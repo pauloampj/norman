@@ -22,20 +22,21 @@
 ** @Comment	 	: Primeira versão.                                             **
 ********************************************************************************/
 
-Use Damaplan\Norman\Core\DMPLParams;
+Use Damaplan\Norman\Core\Utils\DMPLParams;
 
 DMPLParams::write ('DMPL_GATEWAYS', array (
 		'BCB_001' => array (
 				'Subject' 		=> 'Gateway de busca dos normativos do Banco Central',
 				'Extractor'		=> array (
 						'Driver'		=> 'Curl',
+						'Paginator'		=> 'BCB',
 						'UseCache'		=> true,
+						'AutoPaginate'	=> true,
 						'Params'		=> array(
 								'URL'		=> 'http://www.bcb.gov.br/pre/normativos/busca/buscaSharePoint.asp',
 								'Data'		=> array(
 										'dataInicioBusca'	=> '#__TODAY_DDMMYYYY_SLASH',
-										'dataFimBusca'		=> '#__TODAY_DDMMYYYY_SLASH',
-										'startRow'			=> 0
+										'dataFimBusca'		=> '#__TODAY_DDMMYYYY_SLASH'
 								)
 						)
 				),
@@ -48,12 +49,12 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 				'Loader' 		=> array (
 						'Driver' 		=> 'DbSql',
 						'Params' 		=> array(
-								'DBMS' 		=> '',
-								'Host' 		=> '',
-								'Port' 		=> '',
-								'DataBase'	=> '',
-								'User'		=> '',
-								'Password'	=> '',
+								'DBMS' 			=> 'mariadb',
+								'Host' 			=> '35.239.232.72',
+								'Port' 			=> '3306',
+								'Database'		=> 'norman',
+								'User'			=> 'norman',
+								'PasswordHash'	=> 'Tm9ybWFOaDV3MTlNeCwuIUA=',
 						)
 				) 
 		) 

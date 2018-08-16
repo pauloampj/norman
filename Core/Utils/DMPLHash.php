@@ -25,14 +25,24 @@
 
 namespace Damaplan\Norman\Core\Utils;
 
+Use Damaplan\Norman\Core\Utils\DMPLParams;
+
 class DMPLHash {
 	
-	public static function md5($aString = ''){
+	public static function toMd5($aString = ''){
 		return hash('md5', $aString);
 	}
 	
-	public static function sha1($aString = ''){
+	public static function toSha1($aString = ''){
 		return hash('sha1', $aString);
+	}
+	
+	public static function encryptPassword($aPassword = ''){
+		switch (strtoupper(DMPLParams::read ('SECURITY.PASSWORD_HASH_METHOD'))){
+			case 'MD5': 	return static::toMd5($aPassword);
+			case 'SHA1':	return static::toSha1($aPassword);
+			default:		return static::toMd5($aPassword);
+		}
 	}
 	
 }

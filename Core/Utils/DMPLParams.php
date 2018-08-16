@@ -4,7 +4,7 @@
 ** @System      : Norman - Gestor de Normativos		                           **
 ** @Module		: Parametros - Cria classe estática para armazenamento de 	   **
 **				  parâmetros.												   **
-** @Namespace	: Damaplan													   **
+** @Namespace	: Damaplan\Norman\Core\Utils								   **
 ** @Copyright	: Damaplan Consultoria LTDA (http://www.damaplan.com.br)       **
 ** @Link		: http://norman.damaplan.com.br/documentation                  **
 ** @Email		: sistemas@damaplan.com.br					                   **
@@ -23,7 +23,7 @@
 ** @Comment	 	: Primeira versão.                                             **
 ********************************************************************************/
 
-namespace Damaplan\Norman\Core;
+namespace Damaplan\Norman\Core\Utils;
 
 
 class DMPLParams {

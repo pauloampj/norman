@@ -34,7 +34,11 @@ class DMPLJson {
 	}
 	
 	private function _loadData($aJsonData = ''){
-		$this->_data = json_decode($aJsonData, true);
+		if(is_string($aJsonData)){
+			$this->_data = json_decode($aJsonData, true);
+		}else{
+			$this->_data = $aJsonData;
+		}
 	}
 	
 	public function init($aData = ''){
@@ -46,6 +50,37 @@ class DMPLJson {
 	
 	public function getData(){
 		return $this->_data;
+	}
+	
+	public function find($aQuery = '.'){
+		$result = null;
+		$el = $this->_data;
+
+		if(isset($aQuery) && !empty($aQuery)){
+			
+			$pieces = explode('.', $aQuery);
+			
+			if(count($pieces) > 0){
+				foreach($pieces as $p){
+					if(isset($el[$p])){
+						$el = $el[$p];
+					}
+				}
+				
+				$result = $el;
+			}
+			
+		}
+		
+		return $result;
+	}
+	
+	public function toText(){
+		if(isset($this->_data)){
+			return json_encode($this->_data);
+		}else{
+			return '';
+		}
 	}
 	
 	

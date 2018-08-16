@@ -27,7 +27,7 @@
 
 namespace Damaplan\Norman;
 
-Use Damaplan\Norman\Core\DMPLParams;
+Use Damaplan\Norman\Core\Utils\DMPLParams;
 
 class DMPLNormanCrawler {
 
@@ -77,20 +77,19 @@ class DMPLNormanCrawler {
 			$eResult = $gateway->extract();
 			
 			if($eResult === false){
-				var_dump($gateway->getExtractor()->getLog());
+				debug($gateway->getExtractor()->getLog(), 'Crawler');
 			}
-			
-			var_dump($gateway->getExtractedContent()->json()->getData());
+
 			$tResult = $gateway->transform();
 			
 			if($tResult === false){
-				var_dump($gateway->getTransformer()->getLog());
+				debug($gateway->getTransformer()->getLog(), 'Crawler');
 			}
 			
 			$lResult = $gateway->load();
-			
+
 			if($lResult === false){
-				var_dump($gateway->getLoader()->getLog());
+				debug($gateway->getLoader()->getLog(), 'Crawler');
 			}
 		}
 		return true;

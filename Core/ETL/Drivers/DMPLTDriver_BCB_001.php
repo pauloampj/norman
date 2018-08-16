@@ -26,7 +26,11 @@
 
 namespace Damaplan\Norman\Core\ETL\Drivers;
 
-Use Damaplan\Norman\Core\Entity\DMPLEntity_Legislation;
+Use Damaplan\Norman\Core\DB\DMPLEntityList;
+Use Damaplan\Norman\Core\ETL\DMPLTDriver;
+Use Damaplan\Norman\Core\Utils\Domains\DMPLLegislationTypes;
+Use Damaplan\Norman\Core\Utils\DMPLUtils;
+Use Damaplan\Norman\Core\Utils\DMPLParams;
 
 class DMPLTDriver_BCB_001 extends DMPLTDriver {
 	
@@ -38,8 +42,76 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 		$this->init($aConfig);
 	}
 	
-	private function _transform(){
-		return false;
+	private function _transform($aData = null){
+		$table = $aData->json()->find('d.query.PrimaryQueryResult.RelevantResults.Table.Rows');
+
+		if(isset($table) && isset($table['results'])){
+			foreach($table['results'] as $rr){
+				if(isset($rr['Cells']) && isset($rr['Cells']['results'])){
+					$title = '';
+					$hitHighlightedSummary = '';
+					$legID = '';
+					$legType = '';
+					$legDate = '';
+					$link = '';
+					$revoked = '0';
+					$inspector = '';
+					
+					foreach($rr['Cells']['results'] as $cr){
+						if($cr['Key'] == "title"){
+							$title = $cr['Value'];
+						}
+						
+						if($cr['Key']== "HitHighlightedSummary"){
+							$hitHighlightedSummary = $cr['Value'];
+						}
+						
+						if($cr['Key']== "NumeroOWSNMBR"){ 
+							$legID = round($cr['Value'], 0);
+						}
+						
+						if($cr['Key']== "TipodoNormativoOWSCHCS"){
+							$legType = $cr['Value'];
+						}
+						
+						if($cr['Key']== "RevogadoOWSBOOL"){
+							$revoked = $cr['Value'];
+						}
+						
+						if($cr['Key']== "ResponsavelOWSText"){
+							$inspector = $cr['Value'];
+						}
+						
+						if($cr['Key']== "RefinableString01"){
+							$dtNorma = str_replace("string;#", "", $cr['Value']);
+							$dtPieces = explode(" ", $dtNorma);
+							$legDate = $dtPieces[0];
+						}
+					}
+					
+					$typeId = DMPLLegislationTypes::getType($legType);
+					$inspectorId = 1; //1: ID do Bacen
+					$creatorId = ($typeId == DMPLLegislationTypes::$RESOLUTION) ? 2 : $inspectorId; //2: ID do CMN
+					$link = "http://www.bcb.gov.br/pre/normativos/busca/normativo.asp?numero=$legID&tipo=$legType&data=$legDate";
+					$this->_entity->addElement(array(
+							'Subject'					=> $title,
+							'LegalId'					=> $legID,
+							'PublishDate'				=> DMPLUtils::date_PtToEn($legDate),
+							'StartDate'					=> DMPLUtils::date_PtToEn($legDate),
+							'Purpose'					=> $hitHighlightedSummary,
+							'Link'						=> $link,
+							'InspectorDepartment'		=> $inspector,
+							'InspectorId'				=> $inspectorId, 
+							'CreatorId'					=> $creatorId, 
+							'Revoked'					=> $revoked,
+							'TypeId'					=> $typeId,
+							'UserId'					=> DMPLParams::read ('CRAWLER_USER_ID')
+					));
+				}
+			}
+		}
+		
+		return $this->_entity;
 	}
 	
 	public function getConfig(){
@@ -59,7 +131,7 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 	}
 	
 	public function getEntity(){
-		return $this->_model;
+		return $this->_entity;
 	}
 	
 	public function setEntity($aEntity = null){
@@ -69,12 +141,28 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 	public function init($aConfig = array(), $aInData = array()){
 		$this->setConfig($aConfig);
 		$this->setInData($aInData);
-		$this->setEntity(new DMPLEntity_Legislation());
+		$this->setEntity(new DMPLEntityList('DMPLEntity_Nor_Legislation'));
 	}
 	
-	public function transform(){
-		return $this->_tranform();
+	public function transform($aContent = null, $aPage = null){
+		if(isset($aContent)){
+			$this->setInData($aContent);
+		}
+
+		if(is_array($this->_inData) && count($this->_inData) > 0){
+			if(isset($aPage) && is_numeric($aPage)){
+				return $this->_transform($this->_inData[$aPage]);
+			}else{
+				foreach($this->_inData as $page => $data){
+					$this->_transform($data);
+				}
+				
+				return $this->_entity;
+			}
+		}else{
+			return false;
+		}
+		
 	}
-	
 	
 }

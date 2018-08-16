@@ -25,6 +25,8 @@
 
 namespace Damaplan\Norman\Core\ETL;
 
+Use Damaplan\Norman\Core\Utils\DMPLParams;
+
 class DMPLTransform {
 	
 	private $_log = array();
@@ -32,7 +34,7 @@ class DMPLTransform {
 	private $_driverName = '';
 	private $_driver = null;
 	private $_inData = false;
-	private $_outData = false;
+	private $_transformedData = false;
 	
 	function __construct($aConfig = null, $aContent = null){
 		$this->init($aConfig, $aContent);
@@ -41,7 +43,7 @@ class DMPLTransform {
 	private function _loadDriver($aDriverName = ''){
 		if(isset($aDriverName) && !empty($aDriverName)){
 			$this->setDriverName($aDriverName);
-			$className = DMPLParams::read ('DRIVER_NAMESPACE') . '\\' . DMPLParams::read ('TRANSFORMER_DRIVER_PREFIX') . '_' . $aDriverName;
+			$className = DMPLParams::read ('ETL_DRIVER_NAMESPACE') . '\\' . DMPLParams::read ('TRANSFORMER_DRIVER_PREFIX') . '_' . $aDriverName;
 			
 			if(class_exists($className, true)){
 				$this->setDriver(new $className($this->getConfig(), $this->getInData()));
@@ -54,7 +56,6 @@ class DMPLTransform {
 	public function init($aConfig = array(), $aContent = null){
 		$this->setConfig($aConfig);
 		$this->setInData($aContent);
-		$this->_loadDriver($this->getConfig()->getDriverName());
 		
 		return true;
 	}
@@ -71,12 +72,12 @@ class DMPLTransform {
 		return $this->_inData;
 	}
 	
-	public function setOutData($aOutData = ''){
-		$this->_outData = $aOutData;
+	public function setTransformedData($aTransformedData = ''){
+		$this->_transformedData = $aTransformedData;
 	}
 	
-	public function getOutData(){
-		return $this->_outData;
+	public function getTransformedData(){
+		return $this->_transformedData;
 	}
 	
 	public function setDriverName($aDriverName = ''){
@@ -97,6 +98,7 @@ class DMPLTransform {
 	
 	public function setConfig($aConfig = null){
 		$this->_config = $aConfig;
+		$this->_loadDriver($this->getConfig()->getDriverName());
 	}
 	
 	public function getConfig(){
@@ -107,11 +109,15 @@ class DMPLTransform {
 		return $this->_log;
 	}
 	
-	public function transform(){
+	public function transform($aContent = null){
+		if(isset($aContent)){
+			$this->setInData($aContent);
+		}
+		
 		if(isset($this->_driver)){
-			$this->_outData = $this->_driver->transform();
+			$this->_transformedData = $this->_driver->transform($this->getInData());
 			
-			return ($this->_outData!== false);
+			return ($this->_transformedData !== false);
 		}else{
 			$this->addLog("[Transformer] Driver " . $this->getDriverName() . " não encontrado.");
 			return false;
@@ -121,4 +127,4 @@ class DMPLTransform {
 }
 
 
-//Essa classe carregará o driver correspondente à transformação configurada...
+

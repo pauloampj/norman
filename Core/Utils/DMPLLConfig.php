@@ -29,6 +29,38 @@ namespace Damaplan\Norman\Core\Utils;
 
 class DMPLLConfig extends DMPLConfig {
 	
+	private $_driverName = '';
+	private $_params = array();
 	
+	function __construct($aConfig = array()) {
+		$this->init($aConfig);
+	}
+	
+	public function init($aConfig = array()){
+		if(isset($aConfig) && is_array($aConfig)){
+			if(isset($aConfig['Driver'])) $this->setDriverName($aConfig['Driver']);
+			if(isset($aConfig['Params'])) $this->setParams($aConfig['Params']);
+			
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function getDriverName(){
+		return $this->_driverName;
+	}
+	
+	public function setDriverName($aName){
+		$this->_driverName = $aName;
+	}
+	
+	public function getParams(){
+		return $this->_params;
+	}
+	
+	public function setParams($aParams){
+		$this->_params = $aParams;
+	}
 		
 }
