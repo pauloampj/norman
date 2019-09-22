@@ -54,7 +54,7 @@ DMPLParams::write ('ENTITY.DEFAULT_DB_PARAMS', array(
 DMPLParams::write ('CRAWLER_USER_ID', 1);
 DMPLParams::write ('DEBUG', true);
 DMPLParams::write ('API.DEFAULT_VERSION', '1.0');
-DMPLParams::write ('HOME_URL', 'http://norman.damaplan.com.br');
+DMPLParams::write ('HOME_URL', 'http://norman.damaplan.com.br/pages/home');
 DMPLParams::write ('DEFAULT_DOMAIN', 'damaplan.com.br');
 
 
