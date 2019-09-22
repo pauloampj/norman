@@ -1,0 +1,22 @@
+Para os normativos do Bacen:
+1) Verificar o tipo de normativo...
+1.1) Se for Comunicado, verificar o schema do comunicado (declaração de propósito, aprovação diretoria, swap, etc);
+1.2) Se for Ato de Diretor, verificar o schema do ato (prorrogação de inquérito, etc);
+1.3) Se for Ato do Presidente, verificar o schema do ato (liquidação extrajudicial, encerramento de liquidação, etc);
+1.4) Estes schemas vão transformar os normativos em informação estruturada (que depois será utilizada pela front-end);
+1.4) Se for Resolução, Circular ou Carta Circular...
+1.4.1) Verifica se está alterando ou revogando algum normativo...
+1.4.1.1) Se SIM, pega os temas do normativo original;
+1.4.2) Procura pelas palavras-chave do normativo (extração automática de keywords);
+1.4.3) Com base nos keywords, utiliza redes neurais para encontrar os temas;
+1.4.4) Junta com os temas dos normativos originais e remove os duplicados
+1.4.5) Utiliza redes neurais e entidades para encontrar classificadores...
+1.4.5.1) Impacta em qual segmento (S1, S2, S3, etc);
+1.4.5.2) Impacta em qual tipo de instituição (banco, SCFI, IP, Cooperativa, SCD, etc);
+1.4.5.3) Impacta em qual conglomeração (individual, comglomerado, ambos);
+1.4.5.4) Outros classificadores...
+
+
+
+2) Os temas serão pré-cadatrados;
+3) As entidades serão pré-cadastradas;
