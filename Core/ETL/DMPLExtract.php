@@ -158,13 +158,13 @@ class DMPLExtract {
 					
 					for($i = $page; $i < $pagesCount; $i++){
 						$data = $this->_extractPage($i);
-						
+
 						if($data !== false){
 							$this->_content[$i] = new DMPLContent($data, DMPLContentTypes::$JSON);
 						}
 					}
-					
-					return (count($this->_content) <> $pagesCount);
+
+					return (count($this->_content) == $pagesCount);
 				}else{
 					$data = $this->_extractPage($page);
 					

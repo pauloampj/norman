@@ -43,11 +43,11 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 	}
 	
 	private function _transform($aData = null){
-		$table = $aData->json()->find('d.query.PrimaryQueryResult.RelevantResults.Table.Rows');
+		$table = $aData->json()->find('Rows');
 
-		if(isset($table) && isset($table['results'])){
-			foreach($table['results'] as $rr){
-				if(isset($rr['Cells']) && isset($rr['Cells']['results'])){
+		if(isset($table) && count($table) > 0){
+			foreach($table as $rr){
+				if(isset($rr['title'])){
 					$title = '';
 					$hitHighlightedSummary = '';
 					$legID = '';
@@ -57,37 +57,15 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 					$revoked = '0';
 					$inspector = '';
 					
-					foreach($rr['Cells']['results'] as $cr){
-						if($cr['Key'] == "title"){
-							$title = $cr['Value'];
-						}
-						
-						if($cr['Key']== "HitHighlightedSummary"){
-							$hitHighlightedSummary = $cr['Value'];
-						}
-						
-						if($cr['Key']== "NumeroOWSNMBR"){ 
-							$legID = round($cr['Value'], 0);
-						}
-						
-						if($cr['Key']== "TipodoNormativoOWSCHCS"){
-							$legType = $cr['Value'];
-						}
-						
-						if($cr['Key']== "RevogadoOWSBOOL"){
-							$revoked = $cr['Value'];
-						}
-						
-						if($cr['Key']== "ResponsavelOWSText"){
-							$inspector = $cr['Value'];
-						}
-						
-						if($cr['Key']== "RefinableString01"){
-							$dtNorma = str_replace("string;#", "", $cr['Value']);
-							$dtPieces = explode(" ", $dtNorma);
-							$legDate = $dtPieces[0];
-						}
-					}
+					$title = $rr['title'];
+					$hitHighlightedSummary = $rr['HitHighlightedSummary'];
+					$legID = round($rr['NumeroOWSNMBR'], 0);
+					$legType = $rr['TipodoNormativoOWSCHCS'];
+					$revoked = $rr['RevogadoOWSBOOL'];
+					$inspector = $rr['ResponsavelOWSText'];
+					$dtNorma = str_replace("string;#", "", $rr['RefinableString01']);
+					$dtPieces = explode(" ", $dtNorma);
+					$legDate = $dtPieces[0];
 					
 					$typeId = DMPLLegislationTypes::getType($legType);
 					$inspectorId = 1; //1: ID do Bacen

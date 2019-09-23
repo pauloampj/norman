@@ -55,7 +55,7 @@ class DMPLEntity_Nor_Legislation extends DMPLEntity {
 		$this->init();
 	}
 	
-	public function init(){
+	public function init($aConfig = array()){
 
 	}
 	

@@ -54,8 +54,8 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 				'Loader' 		=> array (
 						'Driver' 		=> 'DbSql',
 						'Params' 		=> array(
-								'DBMS' 			=> 'mariadb',
-								'Host' 			=> '35.239.232.72',
+								'DBMS' 			=> 'mysql',
+								'Host' 			=> '127.0.0.1',
 								'Port' 			=> '3306',
 								'Database'		=> 'norman',
 								'User'			=> 'norman',

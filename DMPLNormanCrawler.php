@@ -77,21 +77,21 @@ class DMPLNormanCrawler {
 	public function run(){
 		foreach($this->_gateways as $gateway){
 			$eResult = $gateway->extract();
-			
+
 			if($eResult === false){
-				debug($gateway->getExtractor()->getLog(), 'Crawler');
+				debug($gateway->getExtractor()->getLog(), 'Crawler - Extractor');
 			}
 
 			$tResult = $gateway->transform();
-			
+
 			if($tResult === false){
-				debug($gateway->getTransformer()->getLog(), 'Crawler');
+				debug($gateway->getTransformer()->getLog(), 'Crawler - Transformer');
 			}
 			
 			$lResult = $gateway->load();
 
 			if($lResult === false){
-				debug($gateway->getLoader()->getLog(), 'Crawler');
+				debug($gateway->getLoader()->getLog(), 'Crawler - Loader');
 			}
 		}
 		return true;

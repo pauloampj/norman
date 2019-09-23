@@ -66,7 +66,7 @@ class DMPLEDriver_Curl extends DMPLEDriver {
 		}else{
 			$content = $this->_getRemoteContent($aUrl);
 		}
-		
+
 		return $content;
 	}
 	
@@ -87,7 +87,7 @@ class DMPLEDriver_Curl extends DMPLEDriver {
 		$url = $this->_getQuery();
 		debug($url);
 		$data = $this->_loadRemoteContent($url);
-		
+
 		return $data;
 	}
 	

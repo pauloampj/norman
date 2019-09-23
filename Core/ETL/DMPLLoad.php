@@ -72,8 +72,9 @@ class DMPLLoad {
 	public function load($aData = null){
 		if(isset($aData)){
 			$this->setData($aData);
-			
+
 			if($this->_data instanceof DMPLEntity || $this->_data instanceof DMPLEntityList){
+				
 				return $this->_data->save();
 			}else{
 				$this->addLog("[Loader] Falha ao fazer o salvar informações, pois a entidade é inválida.");

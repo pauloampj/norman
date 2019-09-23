@@ -44,8 +44,8 @@ DMPLParams::write ('DATABASE.TABLE_NAMESPACE', 'Nm_');
 DMPLParams::write ('ENTITY.OVERWRITE_EXISTING_ITEMS', false);
 DMPLParams::write ('ENTITY.DEFAULT_DRIVER', 'DbSql');
 DMPLParams::write ('ENTITY.DEFAULT_DB_PARAMS', array(
-		'DBMS' 			=> 'mariadb',
-		'Host' 			=> '35.239.232.72',
+		'DBMS' 			=> 'mysql',
+		'Host' 			=> '127.0.0.1',
 		'Port' 			=> '3306',
 		'Database'		=> 'norman',
 		'User'			=> 'norman',

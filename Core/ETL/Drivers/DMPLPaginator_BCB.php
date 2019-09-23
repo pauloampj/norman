@@ -65,7 +65,7 @@ class DMPLPaginator_BCB extends DMPLPaginator {
 			$this->_inData = new DMPLContent($data, DMPLContentTypes::$JSON);
 		}
 
-		$results = $this->_inData->json()->find('d.query.PrimaryQueryResult.RelevantResults');
+		$results = $this->_inData->json()->getData();
 
 		if(isset($results)){
 			$this->_itensPerPage = $results['RowCount'];
