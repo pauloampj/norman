@@ -30,7 +30,7 @@ Use Damaplan\Norman\Core\Utils\DMPLHash;
 class DMPLCache {
 	
 	private static function _fileHash($aFileName = ''){
-		return DMPLHash::sha1($aFileName);
+		return DMPLHash::toSha1($aFileName);
 	}
 	
 	private static function _fileName($aFileName = ''){

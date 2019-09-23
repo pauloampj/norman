@@ -33,6 +33,18 @@ class DMPLUtils {
 		return mktime(0,0,0,$m,$d,$y);
 	}
 	
+	public static function isArrayInString($aArray = array(), $aStr = ''){
+		if(isset($aArray) && count($aArray) > 0){
+			foreach($aArray as $k => $v){
+				if(strpos($aStr, $v) !== FALSE){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	public static function date_toEN($aTimestamp = null){
 		if(isset($aTimestamp)){
 			$timestamp = $aTimestamp;

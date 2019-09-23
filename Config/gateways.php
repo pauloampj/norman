@@ -3,6 +3,8 @@
 ** @Company     : Damaplan                                                     **
 ** @System      : Norman - Gestor de Normativos		                           **
 ** @Module		: Gateways - Carrega os parâmetros dos gateways de extração.   **
+**				  Os gateways são fontes de dados para busca do normativos,	   **
+**				  como, por exemplo, o Banco Central, a Receita Federal, etc.  **
 ** @Namespace	: Damaplan\Norman											   **
 ** @Copyright	: Damaplan Consultoria LTDA (http://www.damaplan.com.br)       **
 ** @Link		: http://norman.damaplan.com.br/documentation                  **
@@ -33,10 +35,13 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 						'UseCache'		=> true,
 						'AutoPaginate'	=> true,
 						'Params'		=> array(
-								'URL'		=> 'http://www.bcb.gov.br/pre/normativos/busca/buscaSharePoint.asp',
+								'URL'		=> 'https://www.bcb.gov.br/api/search/app/normativos/buscanormativos',
 								'Data'		=> array(
-										'dataInicioBusca'	=> '#__TODAY_DDMMYYYY_SLASH',
-										'dataFimBusca'		=> '#__TODAY_DDMMYYYY_SLASH'
+										'querytext'			=> 'ContentType:normativo%20AND%20contentSource:normativos',
+										'rowlimit'			=> '100',
+										'startrow'			=> '0',
+										'sortlist'			=> 'Data1OWSDATE:descending',
+										'refinementfilters'	=> 'Data:range(datetime(2019-08-29),datetime(2019-08-29T23:59:59))'/*'#__TODAY_DATERANGE_FILTER'*/
 								)
 						)
 				),

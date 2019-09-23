@@ -5,6 +5,8 @@
 ** @Module		: Norman Crawler - Classe principal de busca do Norman         **
 **				  - Carrega as configurações								   **
 **				  - Cria as instâncias da classe ETL						   **
+**				  - Aceita gateways, que são portais de fontes de dados,	   **
+**				  como o Banco Central, a Receita Federal, etc.				   **
 ** @Namespace	: Damaplan\Norman											   **
 ** @Copyright	: Damaplan Consultoria LTDA (http://www.damaplan.com.br)       **
 ** @Link		: http://norman.damaplan.com.br/documentation                  **

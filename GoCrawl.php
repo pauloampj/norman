@@ -26,7 +26,18 @@ require 'Config/bootstrap.php';
 
 Use Damaplan\Norman\DMPLNormanCrawler;
 
+/**
+ * Instancia novo Crawler para buscar informações do gateway (fonte de dados) informado.
+ * Neste caso, está instanciando um crawler para buscar informações do Banco Central.
+ * */
 $norman = new DMPLNormanCrawler(['BCB_001']);
+
+/**
+ * Roda o crawler instanciado e recebe o retorno.
+ * */
 $result = $norman->run();
 
+/**
+ * Imprime o resultado da busca...
+  * */
 var_dump($result);

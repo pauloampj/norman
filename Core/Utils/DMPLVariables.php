@@ -29,8 +29,13 @@ class DMPLVariables {
 	
 	private static function getVarMap(){
 		return array(
-			'#__TODAY_DDMMYYYY_SLASH'	=> 'TODAY_DDMMYYYY_SLASH'
+			'#__TODAY_DDMMYYYY_SLASH'	=> 'TODAY_DDMMYYYY_SLASH',
+			'#__TODAY_DATERANGE_FILTER'	=> 'TODAY_DATERANGE_FILTER',
 		);
+	}
+	
+	private static function getVarMapKeys(){
+		return array_keys(static::getVarMap());
 	}
 	
 	public static function isVariable($aVar = ''){
@@ -61,4 +66,10 @@ class DMPLVariables {
 		return date('d/m/Y', mktime());
 	}
 	
+	private static function _getVar_TODAY_DATERANGE_FILTER(){
+		$today = date('Y-m-d', mktime());
+		$range = "Data:range(datetime(" . $today . "),datetime(" . $today . "T23:59:59))";
+		return $range;
+	}
+		
 }
