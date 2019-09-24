@@ -1,5 +1,6 @@
 Primeiro o GoCrawl (DMPLNormanCrawler) procura por novos normativos
 Depois o GoSearchContent (DMPLNormanContentSearcher) pega os normativos sem conteúdo e procura pelos conteúdos (colocar uma flag na base indicando se o conteúdo já foi procurado)
+No GoContentSearcher, buscar lista dos normativos pendentes e chamar o DMPLNormanContentSearcher, informando o gateway de acordo com o tipo de normativo.
 Depois o GoSchema (DMPLNormanSchematic) pega os normativos esquematizáveis (Itens 1.1, 1.2 e 1.3) e roda o esquematizador para criar as entidades e salvá-las de forma estruturada.
 Depois o GoClassify (DMPLNormanClassifier) pega os normativos classificáveis (Itens 1.4.2, 1.4.3, 1.4.4 e 1.4.5) e roda Machine Learning para classificar eles. A forma de classificação está descrita no Google Keep
 

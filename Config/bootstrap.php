@@ -68,4 +68,5 @@ DMPLParams::write ('SESSION.KEY', 'DMPL_SID');
 require CONFIG_PATH . 'functions.php';
 require CONFIG_PATH . 'autoload.php';
 require CONFIG_PATH . 'gateways.php';
+require CONFIG_PATH . 'content_searcher_map.php';
 require CONFIG_PATH . 'errors.php';

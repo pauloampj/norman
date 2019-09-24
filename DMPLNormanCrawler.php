@@ -2,7 +2,7 @@
 /********************************************************************************
 ** @Company     : Damaplan                                                     **
 ** @System      : Norman - Gestor de Normativos		                           **
-** @Module		: Norman Crawler - Classe principal de busca do Norman         **
+** @Module		: Norman Crawler - Classe principal de busca dos normativos    **
 **				  - Carrega as configurações								   **
 **				  - Cria as instâncias da classe ETL						   **
 **				  - Aceita gateways, que são portais de fontes de dados,	   **

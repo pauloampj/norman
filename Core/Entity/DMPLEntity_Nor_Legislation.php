@@ -49,6 +49,8 @@ class DMPLEntity_Nor_Legislation extends DMPLEntity {
 	public $CreateDate = null;
 	public $EditDate = null;
 	public $UserId = null;
+	public $Content = null;
+	public $ContentSearcher = null;
 	
 	function __construct(){
 		parent::__construct();

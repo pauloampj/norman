@@ -68,8 +68,9 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 					$legDate = $dtPieces[0];
 					
 					$typeId = DMPLLegislationTypes::getType($legType);
+					$contentSearcher = $this->getContentSearcher($typeId);
 					$inspectorId = 1; //1: ID do Bacen
-					$creatorId = ($typeId == DMPLLegislationTypes::$RESOLUTION) ? 2 : $inspectorId; //2: ID do CMN
+					$creatorId = ($typeId == DMPLLegislationTypes::$BC_BR_RESOLUTION) ? 2 : $inspectorId; //2: ID do CMN
 					$link = "http://www.bcb.gov.br/pre/normativos/busca/normativo.asp?numero=$legID&tipo=$legType&data=$legDate";
 					$this->_entity->addElement(array(
 							'Subject'					=> $title,
@@ -83,7 +84,8 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 							'CreatorId'					=> $creatorId, 
 							'Revoked'					=> $revoked,
 							'TypeId'					=> $typeId,
-							'UserId'					=> DMPLParams::read ('CRAWLER_USER_ID')
+							'UserId'					=> DMPLParams::read ('CRAWLER_USER_ID'),
+							'ContentSearcher'			=> $contentSearcher
 					));
 				}
 			}
@@ -120,6 +122,17 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 		$this->setConfig($aConfig);
 		$this->setInData($aInData);
 		$this->setEntity(new DMPLEntityList('DMPLEntity_Nor_Legislation'));
+	}
+	
+	public function getContentSearcher($aType = null){
+		$map = DMPLParams::read ('DMPL_CONTENT_SEARCHER_MAP');
+		
+		if(isset($map[$aType])){
+			return $map[$aType];
+		}else{
+			return $map['*'];
+		}
+		
 	}
 	
 	public function transform($aContent = null, $aPage = null){

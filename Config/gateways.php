@@ -26,9 +26,12 @@
 
 Use Damaplan\Norman\Core\Utils\DMPLParams;
 
+$db = DMPLParams::read ('ENTITY.DEFAULT_DB_PARAMS');
+
 DMPLParams::write ('DMPL_GATEWAYS', array (
 		'BCB_001' => array (
 				'Subject' 		=> 'Gateway de busca dos normativos do Banco Central',
+				'Type'			=> 'CRAWLER',
 				'Extractor'		=> array (
 						'Driver'		=> 'Curl',
 						'Paginator'		=> 'BCB',
@@ -54,13 +57,81 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 				'Loader' 		=> array (
 						'Driver' 		=> 'DbSql',
 						'Params' 		=> array(
-								'DBMS' 			=> 'mysql',
-								'Host' 			=> '127.0.0.1',
-								'Port' 			=> '3306',
-								'Database'		=> 'norman',
-								'User'			=> 'norman',
-								'PasswordHash'	=> 'Tm9ybWFOaDV3MTlNeCwuIUA=',
+								'DBMS' 			=> $db['DBMS'],
+								'Host' 			=> $db['Host'],
+								'Port' 			=> $db['Port'],
+								'Database'		=> $db['Database'],
+								'User'			=> $db['User'],
+								'PasswordHash'	=> $db['PasswordHash']
 						)
 				) 
+		),
+		'BCB_002' => array (
+				'Subject' 		=> 'Gateway de busca dos conteúdos dos normativos do Banco Central (Resolução, Circular e Carta-Circular)',
+				'Type'			=> 'CONTENT_SEARCHER',
+				'Extractor'		=> array (
+						'Driver'		=> 'Curl',
+						'Paginator'		=> 'BCB',
+						'UseCache'		=> true,
+						'AutoPaginate'	=> true,
+						'Params'		=> array(
+								'URL'		=> 'https://www.bcb.gov.br/api/conteudo/app/normativos/exibenormativo',
+								'Data'		=> array(
+										'p1'				=> '@__NORMATIVE_TYPE',
+										'p2'				=> '@__NORMATIVE_ID'
+								)
+						)
+				),
+				'Transformer'	=> array (
+						'Driver'		=> 'BCB_002',
+						'SourceFormat'	=> 'Json',
+						'Params' 		=> array()
+						
+				),
+				'Loader' 		=> array (
+						'Driver' 		=> 'DbSql',
+						'Params' 		=> array(
+								'DBMS' 			=> $db['DBMS'],
+								'Host' 			=> $db['Host'],
+								'Port' 			=> $db['Port'],
+								'Database'		=> $db['Database'],
+								'User'			=> $db['User'],
+								'PasswordHash'	=> $db['PasswordHash']
+						)
+				)
+		),
+		'BCB_003' => array (
+				'Subject' 		=> 'Gateway de busca dos conteúdos dos normativos do Banco Central (Comunicado)',
+				'Type'			=> 'CONTENT_SEARCHER',
+				'Extractor'		=> array (
+						'Driver'		=> 'Curl',
+						'Paginator'		=> 'BCB',
+						'UseCache'		=> true,
+						'AutoPaginate'	=> true,
+						'Params'		=> array(
+								'URL'		=> 'https://www.bcb.gov.br/api/conteudo/app/normativos/exibeoutrasnormas',
+								'Data'		=> array(
+										'p1'				=> '@__NORMATIVE_TYPE',
+										'p2'				=> '@__NORMATIVE_ID'
+								)
+						)
+				),
+				'Transformer'	=> array (
+						'Driver'		=> 'BCB_002',
+						'SourceFormat'	=> 'Json',
+						'Params' 		=> array()
+						
+				),
+				'Loader' 		=> array (
+						'Driver' 		=> 'DbSql',
+						'Params' 		=> array(
+								'DBMS' 			=> $db['DBMS'],
+								'Host' 			=> $db['Host'],
+								'Port' 			=> $db['Port'],
+								'Database'		=> $db['Database'],
+								'User'			=> $db['User'],
+								'PasswordHash'	=> $db['PasswordHash']
+						)
+				)
 		) 
 ) );
