@@ -86,13 +86,24 @@ class DMPLNormanContentSearcher {
 				
 				if(isset($contentSearcher)){
 					$gateway = $this->_getGateway($contentSearcher);
+					$gateway->setEntity($entity);
+					$eResult = $gateway->extract();
 					
-					/*
-					 * CONTINUAR DAQUI...
-					 * 
-					 * usar o gateway para encontrar o conteúdo
-					 * Passar a entidade como variável...
-					 * */
+					if($eResult === false){
+						debug($gateway->getExtractor()->getLog(), 'ContentSearcher - Extractor');
+					}
+					
+					$tResult = $gateway->transform();
+					
+					if($tResult === false){
+						debug($gateway->getTransformer()->getLog(), 'ContentSearcher - Transformer');
+					}
+					
+					$lResult = $gateway->load();
+					
+					if($lResult === false){
+						debug($gateway->getLoader()->getLog(), 'ContentSearcher - Loader');
+					}
 				}
 			}
 			return true;

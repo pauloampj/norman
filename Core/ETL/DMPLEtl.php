@@ -33,6 +33,7 @@ class DMPLEtl {
 	private $_hTransformer;
 	private $_hLoader;
 	private $_context;
+	private $_entity;
 	
 	function __construct($aContext = array()){
 		$this->init($aContext);
@@ -44,6 +45,14 @@ class DMPLEtl {
 	
 	public function getContext(){
 		return $this->_context;
+	}
+	
+	public function setEntity($aEntity = null){
+		$this->_entity = $aEntity;
+	}
+	
+	public function getEntity(){
+		return $this->_entity;
 	}
 	
 	public function init($aContext = array()){
