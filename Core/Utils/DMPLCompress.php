@@ -2,9 +2,9 @@
 /********************************************************************************
 ** @Company     : Damaplan                                                     **
 ** @System      : Norman - Gestor de Normativos		                           **
-** @Module		: GoSearchContent - Script que instancia o content searcher    **
-**				  do Norman (para encontrar o conteúdo dos normativos).		   **
-** @Namespace	: Damaplan													   **
+** @Module		: Compress - Classe estática para o fazer a compactação de     **
+**				  strings.													   **
+** @Namespace	: Damaplan\Norman\Core\Utils								   **
 ** @Copyright	: Damaplan Consultoria LTDA (http://www.damaplan.com.br)       **
 ** @Link		: http://norman.damaplan.com.br/documentation                  **
 ** @Email		: sistemas@damaplan.com.br					                   **
@@ -18,37 +18,21 @@
 ** @Comment	 	:                                                              **
 ** --------------------------------------------------------------------------- **
 ** @Developer	: @pauloampj                                                   **
-** @Date	 	: 24/09/2019                                           	       **
+** @Date	 	: 29/06/2018                                           	       **
 ** @Version	 	: 1.0                                                 	       **
 ** @Comment	 	: Primeira versão.                                             **
 ********************************************************************************/
 
-require 'Config/bootstrap.php';
+namespace Damaplan\Norman\Core\Utils;
 
-Use Damaplan\Norman\DMPLNormanContentSearcher;
-Use Damaplan\Norman\Core\DB\DMPLEntityList;
-
-/**
- * Instancia EntityList e pega a lista dos normativos pendentes de preenchimento do conteúdo...
- * */
-$entityList = new DMPLEntityList('DMPLEntity_Nor_Legislation');
-$entityList->setFilters(array(
-		'ContentLoaded' => false
-));
-$entityList->load();
-
-
-/**
- * Instancia novo Content Searcher para buscar o conteúdo dos normativos...
- * */
-$cSearcher = new DMPLNormanContentSearcher($entityList);
-
-/**
- * Roda o crawler instanciado e recebe o retorno.
- **/
-$result = $cSearcher->run();
-
-/**
- * Imprime o resultado da busca...
-  * */
-var_dump($result);
+class DMPLCompress {
+	
+	public static function zip($aPlainText = ''){
+		return ("\x1f\x8b\x08\x00" . gzcompress($aPlainText, 9));
+	}
+	
+	public static function unzip($aZipText = ''){
+		return gzuncompress(substr($aZipText, 4));
+	}
+	
+}

@@ -170,7 +170,7 @@ class DMPLDatabase_DbSql implements DMPLDatabaseInterface {
 				}
 				
 				$data = $dbHandler->update($aEntity->getTableName(), $finalProps, $filters);
-				
+
 				if($data->rowCount() > 0){
 					return $dbHandler->id();
 				}else{
@@ -241,7 +241,8 @@ class DMPLDatabase_DbSql implements DMPLDatabaseInterface {
 					if(DMPLParams::read ('ENTITY.OVERWRITE_EXISTING_ITEMS')){
 						return $this->_edit($aEntity);
 					}else{
-						return true;
+						debug("A entidade [" . $aEntity->getName() . "] existe na base de dados, mas não pode ser sobrescrita por parametrização do sistema.", 'DBDriver_Sql');
+						return false;
 					}
 				}else{
 					return $this->_insert($aEntity);

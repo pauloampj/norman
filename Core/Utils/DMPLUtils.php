@@ -102,7 +102,7 @@ class DMPLUtils {
 		return self::date_toEN(self::date_fromPT($aDate));
 	}
 	
-	public static function formatURLQuery($aUrl = '', $aParams = array()){
+	public static function formatURLQuery($aUrl = '', $aParams = array(), $aEntity = null){
 		$url = $aUrl;
 		$pUrl = '';
 		
@@ -111,7 +111,7 @@ class DMPLUtils {
 			
 			foreach($aParams as $key => $value){
 				$pUrl .= ((strlen($pUrl) > 0) ? '&' : '');
-				$pUrl .= $key . '=' . DMPLVariables::getVar($value);
+				$pUrl .= $key . '=' . DMPLVariables::getVar($value, $aEntity);
 			}
 			
 			$url .= $pUrl;

@@ -32,9 +32,10 @@ Use Damaplan\Norman\Core\ETL\DMPLEDriver;
 class DMPLEDriver_Curl extends DMPLEDriver {
 	
 	private $_config = array();
+	private $_entity = null;
 	
-	function __construct($aConfig = array()) {
-		$this->init($aConfig);
+	function __construct($aConfig = array(), $aEntity = null) {
+		$this->init($aConfig, $aEntity);
 	}
 	
 	private function _getParamUrl(){
@@ -46,7 +47,7 @@ class DMPLEDriver_Curl extends DMPLEDriver {
 	}
 	
 	private function _getQuery(){
-		return DMPLUtils::formatURLQuery($this->_getParamUrl(), $this->_getParamData());
+		return DMPLUtils::formatURLQuery($this->_getParamUrl(), $this->_getParamData(), $this->_entity);
 	}
 
 	private function _getRemoteContent($aUrl = ''){
@@ -74,8 +75,17 @@ class DMPLEDriver_Curl extends DMPLEDriver {
 		return $this->_config->setParams($aParams);
 	}
 	
-	public function init($aConfig = array()){
+	public function setEntity($aEntity = null){
+		$this->_entity = $aEntity;
+	}
+	
+	public function getEntity(){
+		return $this->_entity;
+	}
+	
+	public function init($aConfig = array(), $aEntity = null){
 		$this->_config = $aConfig;
+		$this->_entity = $aEntity;
 	}
 	
 	public function extract($aParams = null){

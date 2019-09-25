@@ -256,7 +256,7 @@ class DMPLEntity {
 	
 	public function save(){
 		$id = $this->getDriver()->save();
-		
+
 		if ($id !== false) {
 			if ($this->hasAttr ( 'Id' )) {
 				$this->Id = $id;

@@ -47,8 +47,13 @@ class DMPLEtl {
 		return $this->_context;
 	}
 	
-	public function setEntity($aEntity = null){
+	public function setEntity($aEntity = null, $aCascade = false){
 		$this->_entity = $aEntity;
+		
+		if($aCascade){
+			$this->getExtractor()->setEntity($aEntity, true);
+			$this->getTransformer()->setTransformedData($aEntity, true);
+		}
 	}
 	
 	public function getEntity(){
@@ -57,9 +62,9 @@ class DMPLEtl {
 	
 	public function init($aContext = array()){
 		$this->setContext($aContext);
-		$this->_hExtractor = new DMPLExtract($this->_context->getEConfig());
-		$this->_hTransformer = new DMPLTransform($this->_context->getTConfig());
-		$this->_hLoader = new DMPLLoad($this->_context->getLConfig());
+		$this->_hExtractor = new DMPLExtract($this->_context);
+		$this->_hTransformer = new DMPLTransform($this->_context);
+		$this->_hLoader = new DMPLLoad($this->_context);
 		return true;
 	}
 	

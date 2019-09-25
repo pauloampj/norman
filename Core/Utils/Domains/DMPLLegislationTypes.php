@@ -65,4 +65,25 @@ class DMPLLegislationTypes extends DMPLTypes {
 		return self::$GENERIC;
 	}
 	
+	public static function getNameByType($aTypeId = 0){
+		switch($aTypeId){
+			case self::$GENERIC: return 'Genérico';
+			case self::$CONSTITUTION: return 'Constituição';
+			case self::$FEDERAL_LAW: return 'Lei Federal';
+			case self::$STATE_LAW: return 'Lei Estadual';
+			case self::$MUNICIPAL_LAW: return 'Lei Municipal';
+			case self::$BC_BR_RESOLUTION: return 'Resolução';
+			case self::$RF_BR_NORMATIVE_INSTRUCTION: return 'Instrução Normativa';
+			case self::$BC_BR_CIRCULAR: return 'Circular';
+			case self::$BC_BR_CIRCULAR_LETTER: return 'Carta Circular';
+			case self::$BC_BR_BULLETIN: return 'Comunicado';
+			case self::$BC_BR_JOINT_BULLETIN: return 'Comunicado Conjunto';
+			case self::$BC_BR_PRESIDENTS_ACT: return 'Ato do Presidente';
+			case self::$BC_BR_DIRECTORS_ACT: return 'Ato do Diretor';
+			case self::$BC_BR_REGULATORY_JOINT_ACT: return 'Ato Normativo Conjunto';
+			case self::$RF_BR_PUBLIC_ANNOUNCEMENT: return 'Anúncio Público';
+			case self::$BC_BR_JOINT_DECISION: return 'Decisão Conjunta';
+		}
+	}
+	
 }

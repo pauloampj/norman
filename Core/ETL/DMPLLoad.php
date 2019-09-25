@@ -34,12 +34,12 @@ class DMPLLoad {
 	private $_config = null;
 	private $_data = null;
 	
-	function __construct($aConfig = null){
-		$this->init($aConfig);
+	function __construct($aContext = null){
+		$this->init($aContext);
 	}
 	
-	public function init($aConfig = array()){
-		$this->setConfig($aConfig);
+	public function init($aContext = array()){
+		$this->setConfig($aContext->getLConfig());
 		return true;
 	}
 	
@@ -74,7 +74,6 @@ class DMPLLoad {
 			$this->setData($aData);
 
 			if($this->_data instanceof DMPLEntity || $this->_data instanceof DMPLEntityList){
-				
 				return $this->_data->save();
 			}else{
 				$this->addLog("[Loader] Falha ao fazer o salvar informações, pois a entidade é inválida.");

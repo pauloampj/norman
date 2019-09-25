@@ -36,8 +36,8 @@ class DMPLTransform {
 	private $_inData = false;
 	private $_transformedData = false;
 	
-	function __construct($aConfig = null, $aContent = null){
-		$this->init($aConfig, $aContent);
+	function __construct($aContext = null, $aContent = null){
+		$this->init($aContext, $aContent);
 	}
 	
 	private function _loadDriver($aDriverName = ''){
@@ -53,8 +53,8 @@ class DMPLTransform {
 		}
 	}
 	
-	public function init($aConfig = array(), $aContent = null){
-		$this->setConfig($aConfig);
+	public function init($aContext = array(), $aContent = null){
+		$this->setConfig($aContext->getTConfig());
 		$this->setInData($aContent);
 		
 		return true;
@@ -72,8 +72,12 @@ class DMPLTransform {
 		return $this->_inData;
 	}
 	
-	public function setTransformedData($aTransformedData = ''){
+	public function setTransformedData($aTransformedData = '', $aCascade = false){
 		$this->_transformedData = $aTransformedData;
+		
+		if($aCascade && isset($this->_driver)){
+			$this->_driver->setEntity($aTransformedData);
+		}
 	}
 	
 	public function getTransformedData(){
@@ -116,7 +120,7 @@ class DMPLTransform {
 		
 		if(isset($this->_driver)){
 			$this->_transformedData = $this->_driver->transform($this->getInData());
-			
+
 			return ($this->_transformedData !== false);
 		}else{
 			$this->addLog("[Transformer] Driver " . $this->getDriverName() . " não encontrado.");

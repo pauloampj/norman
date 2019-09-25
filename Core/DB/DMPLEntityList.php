@@ -190,11 +190,20 @@ class DMPLEntityList {
 	}
 	
 	public function exists($aId = null){
-		return false;
+		return isset($this->_entities[$aId]);
 	}
 	
 	public function editElement($aId = null, $aAttrs = array()){
-		
+		if($this->exists($aId)){
+			if(isset($aAttrs)){
+				foreach($aAttrs as $attr => $val){
+					$this->_entities[$aId]->setAttr($attr, $val);
+				}
+				return true;
+			}
+		}else{
+			return false;
+		}
 	}
 	
 	public function addElement($aAttrs = array()){

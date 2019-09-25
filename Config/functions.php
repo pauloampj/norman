@@ -222,7 +222,7 @@ function loadClassMap($currentDir = '', $classMap = null){
 
 }
 
-function debug($message = '', $module = null){
+function debug($message = '', $module = null, $aShowCallerFile = true){
 	
 	if(DMPLParams::read('DEBUG')){
 	
@@ -251,7 +251,16 @@ TEXT;
 			$template = $html;
 		}
 		
-		printf($template, "[$moduleName]", $result);
+		$title = "[$moduleName]";
+		
+		if($aShowCallerFile){
+			$bt =  debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
+			$filePieces = explode("/", $bt[0]['file']);
+			$file = array_pop($filePieces);
+			$title .= " --> [$file]";
+		}
+		
+		printf($template, $title, $result);
 	}
 	
 	

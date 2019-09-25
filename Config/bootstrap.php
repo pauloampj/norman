@@ -41,7 +41,7 @@ DMPLParams::write ('API_CONTROLLER_NAMESPACE', 'Damaplan\Norman\API');
 DMPLParams::write ('ENTITY_NAMESPACE', 'Damaplan\Norman\Core\Entity');
 
 DMPLParams::write ('DATABASE.TABLE_NAMESPACE', 'Nm_');
-DMPLParams::write ('ENTITY.OVERWRITE_EXISTING_ITEMS', false);
+DMPLParams::write ('ENTITY.OVERWRITE_EXISTING_ITEMS', true);
 DMPLParams::write ('ENTITY.DEFAULT_DRIVER', 'DbSql');
 DMPLParams::write ('ENTITY.DEFAULT_DB_PARAMS', array(
 		'DBMS' 			=> 'mysql',

@@ -85,7 +85,8 @@ class DMPLTDriver_BCB_001 extends DMPLTDriver {
 							'Revoked'					=> $revoked,
 							'TypeId'					=> $typeId,
 							'UserId'					=> DMPLParams::read ('CRAWLER_USER_ID'),
-							'ContentSearcher'			=> $contentSearcher
+							'ContentSearcher'			=> $contentSearcher,
+							'ContentLoaded'				=> 0
 					));
 				}
 			}

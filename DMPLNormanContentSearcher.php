@@ -86,7 +86,7 @@ class DMPLNormanContentSearcher {
 				
 				if(isset($contentSearcher)){
 					$gateway = $this->_getGateway($contentSearcher);
-					$gateway->setEntity($entity);
+					$gateway->setEntity($entity, true);
 					$eResult = $gateway->extract();
 					
 					if($eResult === false){

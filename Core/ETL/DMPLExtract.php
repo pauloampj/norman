@@ -38,9 +38,10 @@ class DMPLExtract {
 	private $_paginator = null;
 	private $_content = false;
 	private $_pagesCount = 0;
+	private $_entity = null;
 	
-	function __construct($aConfig = null){
-		$this->init($aConfig);
+	function __construct($aContext = null){
+		$this->init($aContext);
 	}
 	
 	private function _loadDriver($aDriverName = ''){
@@ -49,7 +50,7 @@ class DMPLExtract {
 			$className = DMPLParams::read ('ETL_DRIVER_NAMESPACE') . '\\' . DMPLParams::read ('EXTRACTOR_DRIVER_PREFIX') . '_' . $aDriverName;
 			
 			if(class_exists($className, true)){
-				$this->setDriver(new $className($this->getConfig()));
+				$this->setDriver(new $className($this->getConfig(), $this->getEntity()));
 			}else{
 				$this->addLog("[Extractor] A classe de driver " . $className. " não foi encontrada.");
 			}
@@ -71,11 +72,16 @@ class DMPLExtract {
 	
 	private function _extractPage($aPage = 0){
 		$this->getConfig()->setParams($this->_paginator->getPageParams($aPage, $this->getConfig()->getParams()));
+		return $this->_extract();
+	}
+	
+	private function _extract(){
 		return $this->_driver->extract($this->getConfig()->getParams());
 	}
 	
-	public function init($aConfig = array()){
-		$this->setConfig($aConfig);
+	public function init($aContext = array()){
+		$this->setConfig($aContext->getEConfig());
+		$this->setEntity($aContext->getEntity());
 		$this->_loadDriver($this->getConfig()->getDriverName());
 		$this->_loadPaginator($this->getConfig()->getPaginatorName());
 		$this->_content = array();
@@ -89,6 +95,18 @@ class DMPLExtract {
 	
 	public function getDriverName(){
 		return $this->_driverName;
+	}
+	
+	public function setEntity($aEntity = null, $aCascade = true){
+		$this->_entity = $aEntity;
+		
+		if($aCascade && isset($this->_driver)){
+			$this->getDriver()->setEntity($aEntity);
+		}
+	}
+	
+	public function getEntity(){
+		return $this->_entity;
 	}
 	
 	public function setPaginatorName($aName = ''){
@@ -175,8 +193,13 @@ class DMPLExtract {
 					return ($this->_content !== false);
 				}
 			}else{
-				$this->addLog("[Extractor] Paginador " . $this->getPaginatorName() . " não encontrado.");
-				return false;
+				$data = $this->_extract();
+				
+				if($data !== false){
+					$this->_content[0] = new DMPLContent($data, DMPLContentTypes::$JSON);
+				}
+				
+				return ($this->_content !== false);
 			}
 		}else{
 			$this->addLog("[Extractor] Driver " . $this->getDriverName() . " não encontrado.");

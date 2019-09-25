@@ -71,7 +71,7 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 				'Type'			=> 'CONTENT_SEARCHER',
 				'Extractor'		=> array (
 						'Driver'		=> 'Curl',
-						'Paginator'		=> 'BCB',
+						'Paginator'		=> null,
 						'UseCache'		=> true,
 						'AutoPaginate'	=> true,
 						'Params'		=> array(
@@ -105,7 +105,7 @@ DMPLParams::write ('DMPL_GATEWAYS', array (
 				'Type'			=> 'CONTENT_SEARCHER',
 				'Extractor'		=> array (
 						'Driver'		=> 'Curl',
-						'Paginator'		=> 'BCB',
+						'Paginator'		=> null,
 						'UseCache'		=> true,
 						'AutoPaginate'	=> true,
 						'Params'		=> array(

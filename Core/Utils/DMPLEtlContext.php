@@ -32,6 +32,7 @@ class DMPLEtlContext {
 	private $_EConfig = null;
 	private $_TConfig = null;
 	private $_LConfig = null;
+	private $_entity = null;
 
 	function __construct($aContext = array()) {
 		$this->init($aContext);
@@ -61,6 +62,14 @@ class DMPLEtlContext {
 		return $this->_LConfig;
 	}
 	
+	public function setEntity($aEntity = null){
+		$this->_entity = $aEntity;
+	}
+	
+	public function getEntity(){
+		return $this->_entity;
+	}
+	
 	public function setContext($aContext = array()){
 		if(isset($aContext)){
 			
@@ -80,6 +89,12 @@ class DMPLEtlContext {
 				$this->setLConfig(new DMPLLConfig($aContext['Loader']));
 			}else{
 				$this->setLConfig(null);
+			}
+			
+			if(isset($aContext['Entity'])){
+				$this->setEntity($aContext['Entity']);
+			}else{
+				$this->setEntity(null);
 			}
 		}
 		return true;
