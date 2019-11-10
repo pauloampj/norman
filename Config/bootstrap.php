@@ -33,12 +33,14 @@ DMPLParams::write ('TRANSFORMER_DRIVER_PREFIX', 'DMPLTDriver');
 DMPLParams::write ('LOADER_DRIVER_PREFIX', 'DMPLLDriver');
 DMPLParams::write ('DATABASE_DRIVER_PREFIX', 'DMPLDatabase');
 DMPLParams::write ('API_CONTROLLER_PREFIX', 'DMPLApiController');
+DMPLParams::write ('SCHEMA_DRIVER_PREFIX', 'DMPLSDriver');
 
 DMPLParams::write ('DB_DRIVER_NAMESPACE', 'Damaplan\Norman\Core\DB\Drivers');
 DMPLParams::write ('ETL_DRIVER_NAMESPACE', 'Damaplan\Norman\Core\ETL\Drivers');
 DMPLParams::write ('ETL_PAGINATOR_NAMESPACE', 'Damaplan\Norman\Core\ETL\Drivers');
 DMPLParams::write ('API_CONTROLLER_NAMESPACE', 'Damaplan\Norman\API');
 DMPLParams::write ('ENTITY_NAMESPACE', 'Damaplan\Norman\Core\Entity');
+DMPLParams::write ('SCHEMA_DRIVER_NAMESPACE', 'Damaplan\Norman\Core\Schema\Drivers');
 
 DMPLParams::write ('DATABASE.TABLE_NAMESPACE', 'Nm_');
 DMPLParams::write ('ENTITY.OVERWRITE_EXISTING_ITEMS', true);
@@ -68,5 +70,6 @@ DMPLParams::write ('SESSION.KEY', 'DMPL_SID');
 require CONFIG_PATH . 'functions.php';
 require CONFIG_PATH . 'autoload.php';
 require CONFIG_PATH . 'gateways.php';
+require CONFIG_PATH . 'schemas.php';
 require CONFIG_PATH . 'content_searcher_map.php';
 require CONFIG_PATH . 'errors.php';
